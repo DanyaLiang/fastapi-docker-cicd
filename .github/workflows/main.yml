@@ -28,3 +28,7 @@ jobs:
       - name: Check code
         run: |
           echo "Проверка кода завершена успешно. Контейнеры готовы к сборке!"
+
+          - name: Check syntax
+        run: |
+          python -m py_compile app/main.py
