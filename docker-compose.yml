@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Наше приложение
+  api:
+    build: .
+    container_name: fastapi_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/code/app
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/fastapi_db
+    depends_on:
+      - db
+
+  # База данных
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=fastapi_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Интерфейс для просмотра базы (через браузер)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_panel
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
