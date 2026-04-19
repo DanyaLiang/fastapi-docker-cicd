@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import os
 import psycopg2 
 
-app = FastAPI()4
+app = FastAPI()
 
 @app.get("/")
 def read_root():
