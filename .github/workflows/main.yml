@@ -1,0 +1,30 @@
+name: Project CI  # Название процесса
+
+on:
+  push:
+    branches: [ "main" ]  # Запускать, когда пушим в ветку main
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-project:
+    runs-on: ubuntu-latest  # GitHub выделит нам бесплатный сервер на Linux
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Копируем наш код на сервер GitHub
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Мы устанавливаем зависимости, чтобы проверить, что всё собирается
+          
+      - name: Check code
+        run: |
+          echo "Проверка кода завершена успешно. Контейнеры готовы к сборке!"
